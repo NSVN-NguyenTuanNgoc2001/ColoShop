@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("api/v1/product")
+@RequestMapping("/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -30,8 +30,8 @@ public class ProductController {
     }
 
     @GetMapping("/search-by-cateId")
-    public ResponseEntity<Iterable<Product>> findAllByCateId(@RequestParam int id) {
-        Iterable<Product> products=productService.findAllByCategoryId(id);
+    public ResponseEntity<Iterable<Product>> findAllByCateId(@PageableDefault(size =12)Pageable pageable,@RequestParam int id) {
+        Iterable<Product> products=productService.findAllByCategoryId(pageable,id);
         if(products==null)
             return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(products, HttpStatus.OK);

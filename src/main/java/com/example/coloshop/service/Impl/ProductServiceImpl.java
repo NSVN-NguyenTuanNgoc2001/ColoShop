@@ -24,8 +24,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> findAllByCategoryId(int id) {
-        return repository.findAllByCategoryId(id);
+    public Page<Product> findAllByCategoryId(Pageable page,int id) {
+        return repository.findAllByCategoryId(page,id);
     }
 
     @Override

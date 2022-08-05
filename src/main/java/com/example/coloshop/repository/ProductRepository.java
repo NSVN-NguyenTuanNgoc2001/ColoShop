@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findAll(Pageable pageable);
-    Iterable<Product>findAllByCategoryId(int id);
+    Page<Product>findAllByCategoryId(Pageable pageable,int id);
     Iterable<Product>findAllByPriceBetween(float from,float to);
     Iterable<Product>findAllBySaleBetween(float from,float to);
 }

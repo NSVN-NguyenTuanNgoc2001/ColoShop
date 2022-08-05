@@ -14,13 +14,13 @@ public class Receipt {
     private String name;
     private String sdt;
     private float money;
-    private String status;
+    private int status;
     private int number;
 
     public Receipt() {
     }
 
-    public Receipt(int id, User user, String name, String sdt, float money, String status, int number) {
+    public Receipt(int id, User user, String name, String sdt, float money, int status, int number) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -70,11 +70,11 @@ public class Receipt {
         this.money = money;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
+    Iterable<Receipt>findAllByUserIdAndStatus(int id,int status);
 }

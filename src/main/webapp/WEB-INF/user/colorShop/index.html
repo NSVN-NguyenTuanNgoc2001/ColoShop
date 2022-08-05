@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
-<!--	--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
 				 integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
@@ -71,7 +71,7 @@
 									</ul>
 								</li>
 								<li class="account" id="account">
-									<a href="#">
+									<a href="#" id="accountUser">
 										My Account
 										<i class="fa fa-angle-down"></i>
 									</a>
@@ -110,8 +110,14 @@
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
 									<a href="#">
-										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
+										<i class="fa fa-shopping-cart" aria-hidden="true" id="cart"></i>
+
+
+
+
+
+
+										<span id="checkout_items" class="checkout_items"></span>
 									</a>
 								</li>
 							</ul>
@@ -237,9 +243,9 @@
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">women's</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories">accessories</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">men's</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women" onclick="searchWomen()">women's</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories" onclick="searchAccess()">accessories</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men" onclick="searchMen()">men's</li>
 						</ul>
 					</div>
 				</div>
@@ -459,6 +465,7 @@
 <script>
 
 	loadUI(0)
+
 	function page(key)
 	{
 		switch (key)
@@ -496,35 +503,9 @@
 	}
 	function loadUI(pages)
 	{
-		if(localStorage.getItem("USER")!=null)
-		{
-			let user=JSON.parse(localStorage.getItem("USER"));
-			document.getElementById('account').innerHTML=`<a href="#">${user.username}
-\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
-\t\t\t\t\t</a>
-\t\t\t\t\t<ul class="menu_selection" >
-\t\t\t\t\t\t<li><a href="#" ><i class="fa fa-sign-in" aria-hidden="true"></i>Sign out</a></li>
-\t\t\t\t\t</ul>`
-		}
-		else
-		{
-			document.getElementById('account').innerHTML=`<a href="#">
-\t\t\t\t\t\tMy Account
-\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
-\t\t\t\t\t</a>
-\t\t\t\t\t<ul class="menu_selection" >
-\t\t\t\t\t\t<li><a href="#" onclick="login()"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-\t\t\t\t\t\t<li><a href="#" onclick="register()"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
-\t\t\t\t\t</ul>`
-			localStorage.clear();
-
-		}
 		$.ajax({
-			headers: {
-				Authorization: 'Bearer ' + localStorage.getItem("TOKEN")
-			},
 			type: 'GET',
-			url: 'http://localhost:8686/api/v1/product?page=' + pages,
+			url: 'http://localhost:8686/product?page=' + pages,
 			success: function (data) {
 				let tmp=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
 				for(var i=0;i<data.content.length;i++) {
@@ -573,10 +554,58 @@
 \t\t\t\t\t\t</ul>
 \t\t\t\t\t</nav>
 </div>`
+
 				document.getElementById('pageProduct').innerHTML=tmp;
 				}
 		});
+		loadNumberCard();
 	}
+	function loadNumberCard()
+	{
+		if(typeof(localStorage.getItem("USER"))=='undefined')
+		{
+			document.getElementById('checkout_items').innerText=0;
+		}
+		else
+		{
+			let user=JSON.parse(localStorage.getItem('USER'))
+			console.log(user.id);
+			$.ajax({
+				headers:{
+					Authorization:'Bearer '+localStorage.getItem("TOKEN")
+				},
+				type:'GET',
+				url:'http://localhost:8686/receipt/search-by-status?id='+user.id+'&status=1',
+				success:function (data) {
+					console.log(data)
+					document.getElementById('checkout_items').innerText=data.length;
+				}
+
+			});
+		}
+	}
+// 	function loadAccount()
+// 	{
+// 		if(typeof(localStorage.getItem("USER"))!='undefined')
+// 		{
+// 			let user=JSON.parse(localStorage.getItem("USER"));
+// 			console.log(user.username)
+// 			document.getElementById('accountUser').innerHTML=`${user.username}`;
+// 		}
+// 		else
+// 		{
+// 			document.getElementById('account').innerHTML=`<a href="#">
+// My Account
+// <i class="fa fa-angle-down"></i>
+// </a>
+// <ul class="menu_selection" >
+// <li><a href="#" onclick="login()"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+// <li><a href="#" onclick="register()"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+// </ul>`
+// 			localStorage.clear();
+//
+// 		}
+// 	}
 	function login()
 	{
 		console.log("login")
@@ -616,8 +645,6 @@
 
 				localStorage.setItem("TOKEN",data.accessToken);
 				localStorage.setItem("USER",JSON.stringify(data));
-
-
 				loadUI(0);
 			},
 
@@ -674,6 +701,19 @@
 			},
 
 		});
+	}
+	//
+	function searchWomen()
+	{
+		console.log("women");
+	}
+	function searchAccess()
+	{
+		console.log("Access");
+	}
+	function searchMen()
+	{
+		console.log("Men");
 	}
 </script>
 </body>
