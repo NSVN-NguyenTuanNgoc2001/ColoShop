@@ -23,6 +23,13 @@
 	<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+	<style>
+		@media (min-width: 1025px) {
+			.h-custom {
+				height: 100vh !important;
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -109,7 +116,7 @@
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a href="#" onclick="cart()">
 										<i class="fa fa-shopping-cart" aria-hidden="true" id="cart"></i>
 
 
@@ -161,7 +168,7 @@
 						<li><a href="#">Spanish</a></li>
 					</ul>
 				</li>
-				<li class="menu_item has-children">
+				<li class="menu_item has-children" id="accountUserPhone">
 					<a href="#">
 						My Account
 						<i class="fa fa-angle-down"></i>
@@ -242,10 +249,10 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women" onclick="searchWomen()">women's</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories" onclick="searchAccess()">accessories</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men" onclick="searchMen()">men's</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*" onclick="loadUI(0)">all</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women" onclick="searchWomen(0)">women's</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories" onclick="searchAccess(0)">accessories</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men" onclick="searchMen(0)">men's</li>
 						</ul>
 					</div>
 				</div>
@@ -465,49 +472,666 @@
 <script>
 
 	loadUI(0)
-
-	function page(key)
+	function cart()
 	{
-		switch (key)
-		{
-			case -1:
-				size>0?loadUI(size-1):loadUI(0);
-				if(size>0)
-				{
-					loadUI(size-1);
-					size-=1;
-				}
-				else
-				{
-					loadUI(0);
-				}
-				break;
-			case 1:
-				size=0;
-				loadUI(size);
-				break;
-			case 2:
-				size=1;
-				loadUI(size);
-
-				break;
-			case 3:
-				size=2;
-				loadUI(size);
-				break;
-			case -2:
-				size+=1;
-				loadUI(size);
-				break;
-		}
+		document.body.innerHTML='<section class="h-100 h-custom" style="background-color: #eee;">\n' +
+				'  <div class="container py-5 h-100">\n' +
+				'    <div class="row d-flex justify-content-center align-items-center h-100">\n' +
+				'      <div class="col">\n' +
+				'        <div class="card">\n' +
+				'          <div class="card-body p-4">\n' +
+				'\n' +
+				'            <div class="row">\n' +
+				'\n' +
+				'              <div class="col-lg-7">\n' +
+				'                <h5 class="mb-3"><a href="#!" class="text-body" onclick="loadContainer()"><i\n' +
+				'                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>\n' +
+				'                <hr>\n' +
+				'\n' +
+				'                <div class="d-flex justify-content-between align-items-center mb-4">\n' +
+				'                  <div>\n' +
+				'                    <p class="mb-1">Shopping cart</p>\n' +
+				'                    <p class="mb-0">You have 4 items in your cart</p>\n' +
+				'                  </div>\n' +
+				'                  <div>\n' +
+				'                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"\n' +
+				'                        class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'                <div class="card mb-3">\n' +
+				'                  <div class="card-body">\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div>\n' +
+				'                          <img\n' +
+				'                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"\n' +
+				'                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">\n' +
+				'                        </div>\n' +
+				'                        <div class="ms-3">\n' +
+				'                          <h5>Iphone 11 pro</h5>\n' +
+				'                          <p class="small mb-0">256GB, Navy Blue</p>\n' +
+				'                        </div>\n' +
+				'                      </div>\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div style="width: 50px;">\n' +
+				'                          <h5 class="fw-normal mb-0">2</h5>\n' +
+				'                        </div>\n' +
+				'                        <div style="width: 80px;">\n' +
+				'                          <h5 class="mb-0">$900</h5>\n' +
+				'                        </div>\n' +
+				'                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>\n' +
+				'                      </div>\n' +
+				'                    </div>\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'                <div class="card mb-3">\n' +
+				'                  <div class="card-body">\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div>\n' +
+				'                          <img\n' +
+				'                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img2.webp"\n' +
+				'                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">\n' +
+				'                        </div>\n' +
+				'                        <div class="ms-3">\n' +
+				'                          <h5>Samsung galaxy Note 10 </h5>\n' +
+				'                          <p class="small mb-0">256GB, Navy Blue</p>\n' +
+				'                        </div>\n' +
+				'                      </div>\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div style="width: 50px;">\n' +
+				'                          <h5 class="fw-normal mb-0">2</h5>\n' +
+				'                        </div>\n' +
+				'                        <div style="width: 80px;">\n' +
+				'                          <h5 class="mb-0">$900</h5>\n' +
+				'                        </div>\n' +
+				'                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>\n' +
+				'                      </div>\n' +
+				'                    </div>\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'                <div class="card mb-3">\n' +
+				'                  <div class="card-body">\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div>\n' +
+				'                          <img\n' +
+				'                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"\n' +
+				'                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">\n' +
+				'                        </div>\n' +
+				'                        <div class="ms-3">\n' +
+				'                          <h5>Canon EOS M50</h5>\n' +
+				'                          <p class="small mb-0">Onyx Black</p>\n' +
+				'                        </div>\n' +
+				'                      </div>\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div style="width: 50px;">\n' +
+				'                          <h5 class="fw-normal mb-0">1</h5>\n' +
+				'                        </div>\n' +
+				'                        <div style="width: 80px;">\n' +
+				'                          <h5 class="mb-0">$1199</h5>\n' +
+				'                        </div>\n' +
+				'                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>\n' +
+				'                      </div>\n' +
+				'                    </div>\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'                <div class="card mb-3 mb-lg-0">\n' +
+				'                  <div class="card-body">\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div>\n' +
+				'                          <img\n' +
+				'                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img4.webp"\n' +
+				'                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">\n' +
+				'                        </div>\n' +
+				'                        <div class="ms-3">\n' +
+				'                          <h5>MacBook Pro</h5>\n' +
+				'                          <p class="small mb-0">1TB, Graphite</p>\n' +
+				'                        </div>\n' +
+				'                      </div>\n' +
+				'                      <div class="d-flex flex-row align-items-center">\n' +
+				'                        <div style="width: 50px;">\n' +
+				'                          <h5 class="fw-normal mb-0">1</h5>\n' +
+				'                        </div>\n' +
+				'                        <div style="width: 80px;">\n' +
+				'                          <h5 class="mb-0">$1799</h5>\n' +
+				'                        </div>\n' +
+				'                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>\n' +
+				'                      </div>\n' +
+				'                    </div>\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'              </div>\n' +
+				'              <div class="col-lg-5">\n' +
+				'\n' +
+				'                <div class="card bg-primary text-white rounded-3">\n' +
+				'                  <div class="card-body">\n' +
+				'                    <div class="d-flex justify-content-between align-items-center mb-4">\n' +
+				'                      <h5 class="mb-0">Card details</h5>\n' +
+				'                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"\n' +
+				'                        class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">\n' +
+				'                    </div>\n' +
+				'\n' +
+				'                    <p class="small mb-2">Card type</p>\n' +
+				'                    <a href="#!" type="submit" class="text-white"><i\n' +
+				'                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>\n' +
+				'                    <a href="#!" type="submit" class="text-white"><i\n' +
+				'                        class="fab fa-cc-visa fa-2x me-2"></i></a>\n' +
+				'                    <a href="#!" type="submit" class="text-white"><i\n' +
+				'                        class="fab fa-cc-amex fa-2x me-2"></i></a>\n' +
+				'                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>\n' +
+				'\n' +
+				'                    <form class="mt-4">\n' +
+				'                      <div class="form-outline form-white mb-4">\n' +
+				'                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"\n' +
+				'                          placeholder="Cardholder\'s Name" />\n' +
+				'                        <label class="form-label" for="typeName">Cardholder\'s Name</label>\n' +
+				'                      </div>\n' +
+				'\n' +
+				'                      <div class="form-outline form-white mb-4">\n' +
+				'                        <input type="text" id="typeText" class="form-control form-control-lg" siez="17"\n' +
+				'                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />\n' +
+				'                        <label class="form-label" for="typeText">Card Number</label>\n' +
+				'                      </div>\n' +
+				'\n' +
+				'                      <div class="row mb-4">\n' +
+				'                        <div class="col-md-6">\n' +
+				'                          <div class="form-outline form-white">\n' +
+				'                            <input type="text" id="typeExp" class="form-control form-control-lg"\n' +
+				'                              placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />\n' +
+				'                            <label class="form-label" for="typeExp">Expiration</label>\n' +
+				'                          </div>\n' +
+				'                        </div>\n' +
+				'                        <div class="col-md-6">\n' +
+				'                          <div class="form-outline form-white">\n' +
+				'                            <input type="password" id="typeText" class="form-control form-control-lg"\n' +
+				'                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />\n' +
+				'                            <label class="form-label" for="typeText">Cvv</label>\n' +
+				'                          </div>\n' +
+				'                        </div>\n' +
+				'                      </div>\n' +
+				'\n' +
+				'                    </form>\n' +
+				'\n' +
+				'                    <hr class="my-4">\n' +
+				'\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <p class="mb-2">Subtotal</p>\n' +
+				'                      <p class="mb-2">$4798.00</p>\n' +
+				'                    </div>\n' +
+				'\n' +
+				'                    <div class="d-flex justify-content-between">\n' +
+				'                      <p class="mb-2">Shipping</p>\n' +
+				'                      <p class="mb-2">$20.00</p>\n' +
+				'                    </div>\n' +
+				'\n' +
+				'                    <div class="d-flex justify-content-between mb-4">\n' +
+				'                      <p class="mb-2">Total(Incl. taxes)</p>\n' +
+				'                      <p class="mb-2">$4818.00</p>\n' +
+				'                    </div>\n' +
+				'\n' +
+				'                    <button type="button" class="btn btn-info btn-block btn-lg">\n' +
+				'                      <div class="d-flex justify-content-between">\n' +
+				'                        <span>$4818.00</span>\n' +
+				'                        <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>\n' +
+				'                      </div>\n' +
+				'                    </button>\n' +
+				'\n' +
+				'                  </div>\n' +
+				'                </div>\n' +
+				'\n' +
+				'              </div>\n' +
+				'\n' +
+				'            </div>\n' +
+				'\n' +
+				'          </div>\n' +
+				'        </div>\n' +
+				'      </div>\n' +
+				'    </div>\n' +
+				'  </div>\n' +
+				'</section>'
 	}
-	function loadUI(pages)
+	function loadContainer()
 	{
+		document.body.innerHTML=`<div class="super_container">
+
+\t<!-- Header -->
+
+\t<header class="header trans_300">
+
+\t\t<!-- Top Navigation -->
+
+\t\t<div class="top_nav">
+\t\t\t<div class="container">
+\t\t\t\t<div class="row">
+\t\t\t\t\t<div class="col-md-6">
+\t\t\t\t\t\t<div class="top_nav_left">free shipping on all u.s orders over $50</div>
+\t\t\t\t\t</div>
+\t\t\t\t\t<div class="col-md-6 text-right">
+\t\t\t\t\t\t<div class="top_nav_right">
+\t\t\t\t\t\t\t<ul class="top_nav_menu">
+
+\t\t\t\t\t\t\t\t<!-- Currency / Language / My Account -->
+
+\t\t\t\t\t\t\t\t<li class="currency">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\tusd
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t\t<ul class="currency_selection">
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">cad</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">aud</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">eur</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">gbp</a></li>
+\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t\t<li class="language">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\tEnglish
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t\t<ul class="language_selection">
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">French</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">Italian</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">German</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">Spanish</a></li>
+\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t\t<li class="account" id="account">
+
+
+
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t\t<!-- Main Navigation -->
+
+\t\t<div class="main_nav_container">
+\t\t\t<div class="container">
+\t\t\t\t<div class="row">
+\t\t\t\t\t<div class="col-lg-12 text-right">
+\t\t\t\t\t\t<div class="logo_container">
+\t\t\t\t\t\t\t<a href="#">colo<span>shop</span></a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t\t<nav class="navbar">
+\t\t\t\t\t\t\t<ul class="navbar_menu">
+\t\t\t\t\t\t\t\t<li><a href="#">home</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">shop</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">promotion</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">pages</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">blog</a></li>
+\t\t\t\t\t\t\t\t<li><a href="contact.html">contact</a></li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t<ul class="navbar_user">
+\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t\t<li class="checkout">
+\t\t\t\t\t\t\t\t\t<a href="#" onclick="cart()">
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-shopping-cart" aria-hidden="true" id="cart"></i>
+
+
+
+
+
+
+\t\t\t\t\t\t\t\t\t\t<span id="checkout_items" class="checkout_items"></span>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t<div class="hamburger_container">
+\t\t\t\t\t\t\t\t<i class="fa fa-bars" aria-hidden="true"></i>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</nav>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t</header>
+
+\t<div class="fs_menu_overlay"></div>
+\t<div class="hamburger_menu">
+\t\t<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+\t\t<div class="hamburger_menu_content text-right">
+\t\t\t<ul class="menu_top_nav">
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tusd
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection">
+\t\t\t\t\t\t<li><a href="#">cad</a></li>
+\t\t\t\t\t\t<li><a href="#">aud</a></li>
+\t\t\t\t\t\t<li><a href="#">eur</a></li>
+\t\t\t\t\t\t<li><a href="#">gbp</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tEnglish
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection">
+\t\t\t\t\t\t<li><a href="#">French</a></li>
+\t\t\t\t\t\t<li><a href="#">Italian</a></li>
+\t\t\t\t\t\t<li><a href="#">German</a></li>
+\t\t\t\t\t\t<li><a href="#">Spanish</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tMy Account
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection" >
+\t\t\t\t\t\t<li><a href="#" onclick="login()"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+\t\t\t\t\t\t<li><a href="#" onclick="register()"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item"><a href="#">home</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">shop</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">promotion</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">pages</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">blog</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">contact</a></li>
+\t\t\t</ul>
+\t\t</div>
+\t</div>
+
+\t<!-- Slider -->
+
+\t<div class="main_slider" style="background-image:url(images/slider_1.jpg)">
+\t\t<div class="container fill_height">
+\t\t\t<div class="row align-items-center fill_height">
+\t\t\t\t<div class="col">
+\t\t\t\t\t<div class="main_slider_content">
+\t\t\t\t\t\t<h6>Spring / Summer Collection 2017</h6>
+\t\t\t\t\t\t<h1>Get up to 30% Off New Arrivals</h1>
+\t\t\t\t\t\t<div class="red_button shop_now_button"><a href="#">shop now</a></div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Banner -->
+
+\t<div class="banner">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-md-4">
+\t\t\t\t\t<div class="banner_item align-items-center" style="background-image:url(images/banner_1.jpg)">
+\t\t\t\t\t\t<div class="banner_category">
+\t\t\t\t\t\t\t<a href="categories.html">women's</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-md-4">
+\t\t\t\t\t<div class="banner_item align-items-center" style="background-image:url(images/banner_2.jpg)">
+\t\t\t\t\t\t<div class="banner_category">
+\t\t\t\t\t\t\t<a href="categories.html">accessories's</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-md-4">
+\t\t\t\t\t<div class="banner_item align-items-center" style="background-image:url(images/banner_3.jpg)">
+\t\t\t\t\t\t<div class="banner_category">
+\t\t\t\t\t\t\t<a href="categories.html">men's</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- New Arrivals -->
+
+\t<div class="new_arrivals">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col text-center">
+\t\t\t\t\t<div class="section_title new_arrivals_title">
+\t\t\t\t\t\t<h2>New Arrivals</h2>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row align-items-center">
+\t\t\t\t<div class="col text-center">
+\t\t\t\t\t<div class="new_arrivals_sorting">
+\t\t\t\t\t\t<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+\t\t\t\t\t\t\t<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*" onclick="loadUI(0)">all</li>
+\t\t\t\t\t\t\t<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women" onclick="searchWomen(0)">women's</li>
+\t\t\t\t\t\t\t<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories" onclick="searchAccess(0)">accessories</li>
+\t\t\t\t\t\t\t<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men" onclick="searchMen(0)">men's</li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row">
+\t\t\t\t<div class="col" id="pageProduct">
+
+
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Deal of the week -->
+
+\t<div class="deal_ofthe_week">
+\t\t<div class="container">
+\t\t\t<div class="row align-items-center">
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="deal_ofthe_week_img">
+\t\t\t\t\t\t<img src="images/deal_ofthe_week.png" alt="">
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-6 text-right deal_ofthe_week_col">
+\t\t\t\t\t<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+\t\t\t\t\t\t<div class="section_title">
+\t\t\t\t\t\t\t<h2>Deal Of The Week</h2>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t\t<ul class="timer">
+\t\t\t\t\t\t\t<li class="d-inline-flex flex-column justify-content-center align-items-center">
+\t\t\t\t\t\t\t\t<div id="day" class="timer_num">03</div>
+\t\t\t\t\t\t\t\t<div class="timer_unit">Day</div>
+\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t<li class="d-inline-flex flex-column justify-content-center align-items-center">
+\t\t\t\t\t\t\t\t<div id="hour" class="timer_num">15</div>
+\t\t\t\t\t\t\t\t<div class="timer_unit">Hours</div>
+\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t<li class="d-inline-flex flex-column justify-content-center align-items-center">
+\t\t\t\t\t\t\t\t<div id="minute" class="timer_num">45</div>
+\t\t\t\t\t\t\t\t<div class="timer_unit">Mins</div>
+\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t<li class="d-inline-flex flex-column justify-content-center align-items-center">
+\t\t\t\t\t\t\t\t<div id="second" class="timer_num">23</div>
+\t\t\t\t\t\t\t\t<div class="timer_unit">Sec</div>
+\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+
+\t<!-- Benefit -->
+
+\t<div class="benefit">
+\t\t<div class="container">
+\t\t\t<div class="row benefit_row">
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>free shipping</h6>
+\t\t\t\t\t\t\t<p>Suffered Alteration in Some Form</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>cach on delivery</h6>
+\t\t\t\t\t\t\t<p>The Internet Tend To Repeat</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>45 days return</h6>
+\t\t\t\t\t\t\t<p>Making it Look Like Readable</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>opening all week</h6>
+\t\t\t\t\t\t\t<p>8AM - 09PM</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Blogs -->
+
+\t<div class="blogs">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col text-center">
+\t\t\t\t\t<div class="section_title">
+\t\t\t\t\t\t<h2>Latest Blogs</h2>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row blogs_container">
+\t\t\t\t<div class="col-lg-4 blog_item_col">
+\t\t\t\t\t<div class="blog_item">
+\t\t\t\t\t\t<div class="blog_background" style="background-image:url(images/blog_1.jpg)"></div>
+\t\t\t\t\t\t<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+\t\t\t\t\t\t\t<h4 class="blog_title">Here are the trends I see coming this fall</h4>
+\t\t\t\t\t\t\t<span class="blog_meta">by admin | dec 01, 2017</span>
+\t\t\t\t\t\t\t<a class="blog_more" href="#">Read more</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-4 blog_item_col">
+\t\t\t\t\t<div class="blog_item">
+\t\t\t\t\t\t<div class="blog_background" style="background-image:url(images/blog_2.jpg)"></div>
+\t\t\t\t\t\t<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+\t\t\t\t\t\t\t<h4 class="blog_title">Here are the trends I see coming this fall</h4>
+\t\t\t\t\t\t\t<span class="blog_meta">by admin | dec 01, 2017</span>
+\t\t\t\t\t\t\t<a class="blog_more" href="#">Read more</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-4 blog_item_col">
+\t\t\t\t\t<div class="blog_item">
+\t\t\t\t\t\t<div class="blog_background" style="background-image:url(images/blog_3.jpg)"></div>
+\t\t\t\t\t\t<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+\t\t\t\t\t\t\t<h4 class="blog_title">Here are the trends I see coming this fall</h4>
+\t\t\t\t\t\t\t<span class="blog_meta">by admin | dec 01, 2017</span>
+\t\t\t\t\t\t\t<a class="blog_more" href="#">Read more</a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Newsletter -->
+
+\t<div class="newsletter">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+\t\t\t\t\t\t<h4>Newsletter</h4>
+\t\t\t\t\t\t<p>Subscribe to our newsletter and get 20% off your first purchase</p>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<form action="post">
+\t\t\t\t\t\t<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+\t\t\t\t\t\t\t<input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required.">
+\t\t\t\t\t\t\t<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</form>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Footer -->
+
+\t<footer class="footer" >
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+\t\t\t\t\t\t<ul class="footer_nav">
+\t\t\t\t\t\t\t<li><a href="#">Blog</a></li>
+\t\t\t\t\t\t\t<li><a href="#">FAQs</a></li>
+\t\t\t\t\t\t\t<li><a href="contact.html">Contact us</a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+\t\t\t\t\t\t<ul>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-12">
+\t\t\t\t\t<div class="footer_nav_container">
+\t\t\t\t\t\t<div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</footer>`
+		loadAccount();
+		loadNumberCard();
+		loadUI(0);
+
+	}
+	function loadUI(page)
+	{
+		let pre=page-1>0?page-1:0;
+		let next=page+1;
+        let tmp=``;
 		$.ajax({
 			type: 'GET',
-			url: 'http://localhost:8686/product?page=' + pages,
+			url: 'http://localhost:8686/product?page=' + page,
 			success: function (data) {
-				let tmp=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
+				tmp+=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
 				for(var i=0;i<data.content.length;i++) {
 					if (data.content[i].sale == 0)
 					{
@@ -523,7 +1147,7 @@
 \t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
 \t\t\t\t\t\t</div>`
 					}
 					else{
@@ -539,37 +1163,36 @@
               <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
               </div>
                </div>
-                <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
                  </div>`
 					}
 				}
 				tmp+=`
 <nav aria-label="Page navigation example" style="margin: 0 auto">
 \t\t\t\t\t\t<ul class="pagination">
-\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="page(-1)">Previous</a></li>
-\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="page(1)">1</a></li>
-\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="page(2)">2</a></li>
-\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="page(3)">3</a></li>
-\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="page(-2)">Next</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="loadUI(${pre})">Previous</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="loadUI(0)">1</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="loadUI(1)">2</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="loadUI(2)">3</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="loadUI(${next})">Next</a></li>
 \t\t\t\t\t\t</ul>
 \t\t\t\t\t</nav>
 </div>`
-
 				document.getElementById('pageProduct').innerHTML=tmp;
 				}
 		});
 		loadNumberCard();
+		loadAccount();
 	}
 	function loadNumberCard()
 	{
-		if(typeof(localStorage.getItem("USER"))=='undefined')
+		if(localStorage.getItem("USER")===null)
 		{
 			document.getElementById('checkout_items').innerText=0;
 		}
 		else
 		{
 			let user=JSON.parse(localStorage.getItem('USER'))
-			console.log(user.id);
 			$.ajax({
 				headers:{
 					Authorization:'Bearer '+localStorage.getItem("TOKEN")
@@ -577,38 +1200,42 @@
 				type:'GET',
 				url:'http://localhost:8686/receipt/search-by-status?id='+user.id+'&status=1',
 				success:function (data) {
-					console.log(data)
+					// console.log(data)
 					document.getElementById('checkout_items').innerText=data.length;
 				}
 
 			});
 		}
 	}
-// 	function loadAccount()
-// 	{
-// 		if(typeof(localStorage.getItem("USER"))!='undefined')
-// 		{
-// 			let user=JSON.parse(localStorage.getItem("USER"));
-// 			console.log(user.username)
-// 			document.getElementById('accountUser').innerHTML=`${user.username}`;
-// 		}
-// 		else
-// 		{
-// 			document.getElementById('account').innerHTML=`<a href="#">
-// My Account
-// <i class="fa fa-angle-down"></i>
-// </a>
-// <ul class="menu_selection" >
-// <li><a href="#" onclick="login()"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-// <li><a href="#" onclick="register()"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
-// </ul>`
-// 			localStorage.clear();
-//
-// 		}
-// 	}
+	function loadAccount()
+	{
+		if(localStorage.getItem("USER")!=null)
+		{
+			let user=JSON.parse(localStorage.getItem("USER"))
+		    document.getElementById('account').innerHTML=`<div class="dropdown">
+  <button class="dropbtn">${user.username}</button>
+  <div class="dropdown-content">
+  <a href="#" onclick="logOut()"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a>
+  </div>
+</div>`;
+
+		}
+		else
+		{
+			document.getElementById('accountUserPhone').innerHTML=
+					document.getElementById('accountUser').innerHTML=document.getElementById('account').innerHTML=`
+<div class="dropdown">
+  <button class="dropbtn">MyAccount</button>
+  <div class="dropdown-content">
+  <a href="#" onclick="login()"><i class="fa fa-sign-out" aria-hidden="true"></i>Log in</a>
+  <a href="#" onclick="register()"><i class="fa fa-sign-out" aria-hidden="true"></i>Register</a>
+  </div>
+</div>`
+		}
+	}
 	function login()
 	{
-		console.log("login")
+		// console.log("login")
 		document.body.innerHTML=`
 <div class="main">
     <p class="sign" align="center">Sign in</p>
@@ -645,7 +1272,7 @@
 
 				localStorage.setItem("TOKEN",data.accessToken);
 				localStorage.setItem("USER",JSON.stringify(data));
-				loadUI(0);
+				loadContainer();
 			},
 
 		});
@@ -680,7 +1307,7 @@
 			Register(obj)
 		}
 		else
-			console.log("mật khẩu khác nhau");
+			alert("mật khẩu khác nhau");
 
 	}
 	function Register(obj) {
@@ -695,25 +1322,199 @@
 			data:JSON.stringify(obj),
 			success:function (data)
 			{
-				console.log(data);
+				// console.log(data);
 				alert("Thành  công");
 				login();
 			},
 
 		});
 	}
-	//
-	function searchWomen()
+	function searchWomen(page)
 	{
-		console.log("women");
+		let pre=page-1>0?page-1:0;
+		let next=page+1
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8686/product/search-by-cateId?page='+page+'&id=2',
+			success: function (data) {
+				let tmp=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
+				for(var i=0;i<data.content.length;i++) {
+					if (data.content[i].sale == 0)
+					{
+						tmp+=`<div class="product-item">
+\t\t\t\t\t\t\t<div class="product product_filter">
+\t\t\t\t\t\t\t\t<div class="product_image">
+\t\t\t\t\t\t\t\t\t<img src="images/${data.content[i].imageRoot }" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="favorite"></div>
+\t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+\t\t\t\t\t\t\t\t<div class="product_info">
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+\t\t\t\t\t\t</div>`
+					}
+					else{
+						tmp+=`<div class="product-item">
+                  <div class="product discount product_filter">
+                  <div class="product_image">
+                  <img src="images/${data.content[i].imageRoot}" alt="">
+                    </div>
+                  <div class="favorite favorite_left"></div>
+                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
+                <div class="product_info">
+                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+              <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
+              </div>
+               </div>
+                <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+                 </div>`
+					}
+				}
+				tmp+=`
+<nav aria-label="Page navigation example" style="margin: 0 auto">
+\t\t\t\t\t\t<ul class="pagination">
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchWomen(${pre})">Previous</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchWomen(0)">1</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchWomen(1)">2</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchWomen(2)">3</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchWomen(${next})">Next</a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</nav>
+</div>`
+				document.getElementById('pageProduct').innerHTML=tmp;
+			}
+		});
 	}
-	function searchAccess()
+	function searchAccess(page)
 	{
-		console.log("Access");
+		let pre=page-1>0?page-1:0;
+		let next=page+1
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8686/product/search-by-cateId?page='+page+'&id=3',
+			success: function (data) {
+				let tmp=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
+				for(var i=0;i<data.content.length;i++) {
+					if (data.content[i].sale == 0)
+					{
+						tmp+=`<div class="product-item">
+\t\t\t\t\t\t\t<div class="product product_filter">
+\t\t\t\t\t\t\t\t<div class="product_image">
+\t\t\t\t\t\t\t\t\t<img src="images/${data.content[i].imageRoot }" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="favorite"></div>
+\t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+\t\t\t\t\t\t\t\t<div class="product_info">
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+\t\t\t\t\t\t</div>`
+					}
+					else{
+						tmp+=`<div class="product-item">
+                  <div class="product discount product_filter">
+                  <div class="product_image">
+                  <img src="images/${data.content[i].imageRoot}" alt="">
+                    </div>
+                  <div class="favorite favorite_left"></div>
+                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
+                <div class="product_info">
+                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+              <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
+              </div>
+               </div>
+                <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+                 </div>`
+					}
+				}
+				tmp+=`
+<nav aria-label="Page navigation example" style="margin: 0 auto">
+\t\t\t\t\t\t<ul class="pagination">
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchAccess(${pre})">Previous</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchAccess(0)">1</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchAccess(1)">2</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchAccess(2)">3</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchAccess(${next})">Next</a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</nav>
+</div>`
+				document.getElementById('pageProduct').innerHTML=tmp;
+			}
+		});
 	}
-	function searchMen()
+	function searchMen(page)
 	{
-		console.log("Men");
+		let pre=page-1>0?page-1:0;
+		let next=page+1
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8686/product/search-by-cateId?page='+page+'&id=1',
+			success: function (data) {
+				let tmp=`<div  class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>`;
+				for(var i=0;i<data.content.length;i++) {
+					if (data.content[i].sale == 0)
+					{
+						tmp+=`<div class="product-item">
+\t\t\t\t\t\t\t<div class="product product_filter">
+\t\t\t\t\t\t\t\t<div class="product_image">
+\t\t\t\t\t\t\t\t\t<img src="images/${data.content[i].imageRoot }" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="favorite"></div>
+\t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+\t\t\t\t\t\t\t\t<div class="product_info">
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+\t\t\t\t\t\t</div>`
+					}
+					else{
+						tmp+=`<div class="product-item">
+                  <div class="product discount product_filter">
+                  <div class="product_image">
+                  <img src="images/${data.content[i].imageRoot}" alt="">
+                    </div>
+                  <div class="favorite favorite_left"></div>
+                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
+                <div class="product_info">
+                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+              <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
+              </div>
+               </div>
+                <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+                 </div>`
+					}
+				}
+				tmp+=`
+<nav aria-label="Page navigation example" style="margin: 0 auto">
+\t\t\t\t\t\t<ul class="pagination">
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchMen(${pre})">Previous</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchMen(0)">1</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchMen(1)">2</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchMen(2)">3</a></li>
+\t\t\t\t\t\t\t<li class="page-item"><a class="page-link" href="#" onclick="searchMen(${next})">Next</a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</nav>
+</div>`
+				document.getElementById('pageProduct').innerHTML=tmp;
+			}
+		});
+	}
+	function logOut()
+	{
+		localStorage.clear();
+		// console.log("log out")
+		loadUI(0);
+	}
+	function addToCart(idProduct)
+	{
+
 	}
 </script>
 </body>

@@ -16,4 +16,9 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Iterable<Receipt> findAllCart(int id,int status) {
         return repository.findAllByUserIdAndStatus(id,status);
     }
+
+    @Override
+    public void save(Receipt receipt) {
+        repository.save(receipt);
+    }
 }
