@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public class Receipt {
+    //khi người dùng đặt hàng sẽ vào bảng này
+    //status bawnfg2 là ng bán đã xác nhận đơn hàng
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -11,21 +13,21 @@ public class Receipt {
     private User user;
     //mã hóa đơn nếu ng dùng thanh toán
     //còn k có thì nó chỉ là cart mà thôi
-    private String name;
+
     private String sdt;
-    private float money;
+
     private int status;
     private int number;
 
     public Receipt() {
     }
 
-    public Receipt(int id, User user, String name, String sdt, float money, int status, int number) {
+    public Receipt(int id, User user, String sdt, int status, int number) {
         this.id = id;
         this.user = user;
-        this.name = name;
+
         this.sdt = sdt;
-        this.money = money;
+
         this.status = status;
         this.number = number;
     }
@@ -46,13 +48,6 @@ public class Receipt {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getSdt() {
         return sdt;
@@ -60,14 +55,6 @@ public class Receipt {
 
     public void setSdt(String sdt) {
         this.sdt = sdt;
-    }
-
-    public float getMoney() {
-        return money;
-    }
-
-    public void setMoney(float money) {
-        this.money = money;
     }
 
     public int getStatus() {

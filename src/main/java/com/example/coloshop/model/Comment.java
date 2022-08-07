@@ -2,7 +2,7 @@ package com.example.coloshop.model;
 
 import javax.persistence.*;
 import java.util.Date;
-
+//bảng comment của từng sản phẩm
 @Entity
 public class Comment {
     @Id
@@ -13,7 +13,9 @@ public class Comment {
     private User user;
     private String content;
     private Date date;
+    //sao đánh giá của người dùng với sản phẩm
     private float star;
+    //trạng thái của comment đã xóa hay chưa mà sửa chưa
     private int status;
     @ManyToOne
     private Product product;

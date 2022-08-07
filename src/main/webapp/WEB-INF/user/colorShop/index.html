@@ -478,6 +478,7 @@
 		if(cart===null)
 			login();
 		else {
+
 			document.body.innerHTML = '<section class="h-100 h-custom" style="background-color: #eee;">\n' +
 					'  <div class="container py-5 h-100">\n' +
 					'    <div class="row d-flex justify-content-center align-items-center h-100">\n' +
@@ -495,41 +496,11 @@
 					'                <div class="d-flex justify-content-between align-items-center mb-4">\n' +
 					'                  <div>\n' +
 					'                    <p class="mb-1">Shopping cart</p>\n' +
-					'                    <p class="mb-0">You have 4 items in your cart</p>\n' +
-					'                  </div>\n' +
-					'                  <div>\n' +
-					'                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"\n' +
-					'                        class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>\n' +
+					'                    <p class="mb-0" id="numberProduct"></p>\n' +
 					'                  </div>\n' +
 					'                </div>\n' +
 					'\n' +
-					'                <div class="card mb-3" >\n' +
-					'                  <div class="card-body">\n' +
-					'                    <div class="d-flex justify-content-between">\n' +
-					'                      <div class="d-flex flex-row align-items-center">\n' +
-					'                        <div>\n' +
-					'                          <img\n' +
-					'                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"\n' +
-					'                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">\n' +
-					'                        </div>\n' +
-					'                        <div class="ms-3">\n' +
-					'                          <h5>Iphone 11 pro</h5>\n' +
-					'                          <p class="small mb-0">256GB, Navy Blue</p>\n' +
-					'                        </div>\n' +
-					'                      </div>\n' +
-					'                      <div class="d-flex flex-row align-items-center">\n' +
-					'                        <div style="width: 50px;">\n' +
-					'                          <h5 class="fw-normal mb-0">2</h5>\n' +
-					'                        </div>\n' +
-					'                        <div style="width: 80px;">\n' +
-					'                          <h5 class="mb-0">$900</h5>\n' +
-					'                        </div>\n' +
-					'                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>\n' +
-					'                      </div>\n' +
-					'                    </div>\n' +
-					'                  </div>\n' +
-					'                </div>\n' +
-					'\n' +
+
 					'              </div>\n' +
 					'              <div class="col-lg-5">\n' +
 					'\n' +
@@ -600,8 +571,8 @@
 					'                    </div>\n' +
 					'\n' +
 					'                    <button type="button" class="btn btn-info btn-block btn-lg">\n' +
-					'                      <div class="d-flex justify-content-between">\n' +
-					'                        <span>$4818.00</span>\n' +
+					'                      <div class="d-flex justify-content-between" >\n' +
+					'                        <span ><i class="fa-solid fa-dong-sign" id="priceCart"></i></span>\n' +
 					'                        <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>\n' +
 					'                      </div>\n' +
 					'                    </button>\n' +
@@ -619,18 +590,62 @@
 					'    </div>\n' +
 					'  </div>\n' +
 					'</section>'
+			let user=JSON.parse(localStorage.getItem('USER'))
+			$.ajax({
+				headers:{
+					Authorization:'Bearer '+localStorage.getItem("TOKEN")
+				},
+				type:'GET',
+				url:'http://localhost:8686/cart/search-by-status?id='+user.id+'&status=1',
+				success:function (data) {
+					let str='';
+					let total=0;
+					document.getElementById('numberProduct').innerText=`You have ${data.length} items in your cart`
+					for(var i=0;i<data.length;i++)
+					{
+
+						total+=data[i].product.price;
+						str+=`<div class="card mb-3" >
+\t\t\t\t\t                  <div class="card-body">
+\t\t\t\t\t                    <div class="d-flex justify-content-between">
+\t\t\t\t\t                      <div class="d-flex flex-row align-items-center">
+\t\t\t\t\t                        <div>
+\t\t\t\t\t                          <img
+\t\t\t\t\t                           src="images/${data[i].product.imageRoot}"
+\t\t\t\t\t                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+\t\t\t\t\t                        </div>
+\t\t\t\t\t                        <div class="ms-3">
+\t\t\t\t\t                          <h5>${data[i].product.title}</h5>
+\t\t\t\t\t                          <p class="small mb-0">${data[i].product.description}</p>
+\t\t\t\t\t                        </div>
+\t\t\t\t\t                      </div>
+\t\t\t\t\t                      <div class="d-flex flex-row align-items-center">
+\t\t\t\t\t                        <div style="width: 20px;">
+\t\t\t\t\t                          <h5 class="fw-normal mb-0">${data[i].number}</h5>
+\t\t\t\t\t                        </div>
+\t\t\t\t\t                        <div style="width: 110px;">
+
+\t\t\t\t\t                          <h5 class="mb-0"><i class="fa-solid fa-dong-sign">${convertPrice(data[i].product.price)}</i></h5>
+\t\t\t\t\t                        </div>
+\t\t\t\t\t                        <a onclick="deleteCart(${data[i].id})" href="#" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+\t\t\t\t\t                      </div>
+\t\t\t\t\t                    </div>
+\t\t\t\t\t                  </div>
+\t\t\t\t\t                </div>`
+					}
+					document.getElementById('productCart').innerHTML+=str;
+					document.getElementById('priceCart').innerText=convertPrice(total).toString();
+				}
+
+			});
 		}
 	}
 	function loadContainer()
 	{
 		document.body.innerHTML=`<div class="super_container">
-
 \t<!-- Header -->
-
 \t<header class="header trans_300">
-
 \t\t<!-- Top Navigation -->
-
 \t\t<div class="top_nav">
 \t\t\t<div class="container">
 \t\t\t\t<div class="row">
@@ -1122,7 +1137,7 @@
 					Authorization:'Bearer '+localStorage.getItem("TOKEN")
 				},
 				type:'GET',
-				url:'http://localhost:8686/receipt/search-by-status?id='+user.id+'&status=1',
+				url:'http://localhost:8686/cart/search-by-status?id='+user.id+'&status=1',
 				success:function (data) {
 					localStorage.setItem("CART",JSON.stringify(data))
 					document.getElementById('checkout_items').innerText=data.length;
@@ -1336,7 +1351,7 @@
 \t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
+\t\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id}}">add to cart</a></div>
 \t\t\t\t\t\t</div>`
 					}
 					else{
@@ -1438,22 +1453,89 @@
 	}
 	function addToCart(idProduct)
 	{
+		// console.log(JSON.parse(localStorage.getItem("USER")).id);
+		let obj={
+			number:1,
+			status:1,
+			product:{
+				id:idProduct
+			},
+			user:{
+				id:JSON.parse(localStorage.getItem("USER")).id
+			}
+		}
+		$.ajax({
+			headers:{
+				'Accept':'application/json',
+				'Content-Type':'application/json',
+				Authorization:'Bearer '+localStorage.getItem("TOKEN")
+			},
 
+			type:'POST',
+			url:'http://localhost:8686/cart/add-cart',
+			data:JSON.stringify(obj),
+			success:function (data)
+			{
+				alert("Đã thêm sản phẩm vào giỏ hàng!");
+				loadNumberCard();
+				// loadUser();
+			},
+
+		});
 	}
 	function convertPrice(price)
 	{
 		let convert='';
-		while(price>1000)
+		var stack=[];
+		let str='';
+		while(price>=1000)
 		{
 
-			convert+=(price/1000).toString();
-			price/=1000;
-			convert+='.';
+			let result=price%1000;
+			if(result<10)
+			{
+				convert=".00"+(price%1000).toString()
+			}
+			else
+			{
+
+				if(result<100)
+				{
+					convert=".0"+result.toString();
+				}
+				else
+					convert="."+(price%1000).toString();
+
+			}
+			stack.push(convert)
+			price=(parseInt(price/1000)).toString();
 		}
-		if(price%1000==0)
-			return convert+="000";
-		else
-			return convert+=price.toString();
+		stack.push(price);
+		console.log(stack);
+		console.log(stack.length)
+		for(var i=stack.length-1;i>=0;i--)
+		{
+			//pop push cũng đc vì nó là hàm của stack
+			str+=stack[i];
+
+		}
+		return str;
+	}
+	function deleteCart(id){
+		$.ajax({
+			headers:{
+
+				Authorization:'Bearer '+localStorage.getItem("TOKEN")
+			},
+			type:'DELETE',
+			url:'http://localhost:8686/cart/'+id,
+			success:function (data)
+			{
+				alert("Đã xóa sản phẩm khỏi giỏ hàng!");
+				cart();
+
+			},
+		});
 	}
 </script>
 </body>

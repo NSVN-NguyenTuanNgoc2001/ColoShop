@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin("*")
@@ -25,5 +22,11 @@ public class ReceiptDetailController {
         if(receipts==null)
             return new ResponseEntity<>(receipts, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(receipts, HttpStatus.OK);
+    }
+    @PostMapping("/add-cart")
+    public ResponseEntity findAllByStatus(@RequestBody ReceiptDetail receipt)
+    {
+        receiptDetail.save(receipt);
+        return new ResponseEntity(receipt,HttpStatus.OK);
     }
 }
