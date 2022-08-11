@@ -56,6 +56,14 @@ public class UserController {
 
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
+    @GetMapping("/search-by-username")
+    public ResponseEntity<Iterable<User>>findAllByUserConaining(@RequestParam String name)
+    {
+        Iterable<User> user=userService.findAllByUserNameContain(name);
+        if(user==null)
+            return new ResponseEntity<>(user,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {

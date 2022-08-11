@@ -14,12 +14,15 @@
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" type="text/css" href="../../admin/admin.css">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
 				 integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
 			crossorigin="anonymous"></script>
+
 	<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -1082,7 +1085,7 @@
 \t\t\t\t\t\t\t\t<div class="favorite"></div>
 \t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 \t\t\t\t\t\t\t\t<div class="product_info">
-\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="#" onclick="detailProduct(${data.content[i].id})">${data.content[i].title }</a></h6>
 \t\t\t\t\t\t\t\t\t<div class="product_price"><i class="fa-solid fa-dong-sign"></i> ${convertPrice(data.content[i].price)}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
@@ -1098,7 +1101,7 @@
                   <div class="favorite favorite_left"></div>
                 <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
                 <div class="product_info">
-                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+                    <h6 class="product_name"><a href="#" onclick="detailProduct()">${data.content[i].title}</a></h6>
               <div class="product_price"><i class="fa-solid fa-dong-sign"></i> ${convertPrice(data.content[i].price*data.content[i].sale/100)}<span><i class="fa-solid fa-dong-sign"></i> ${convertPrice(data.content[i].price)}</span></div>
               </div>
                </div>
@@ -1211,9 +1214,75 @@
 
 				localStorage.setItem("TOKEN",data.accessToken);
 				localStorage.setItem("USER",JSON.stringify(data));
-				loadContainer();
+				checkUser();
+				// loadContainer();
 			},
 
+		});
+	}
+	function checkUser()
+	{
+		$.ajax({
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem("TOKEN")
+			},
+			type: 'GET',
+			url: 'http://localhost:8686/id?id='+JSON.parse(localStorage.getItem("USER")).id,
+			success: function (data) {
+				if(data.id==1)
+					loadContainer();
+				else
+					document.body.innerHTML=`<div class="admin">
+        <div class="admin__infor">
+            <h2 class="admin__title">Admin</h2>
+            <div class="admin__search">
+                <input placeholder="search ..." type="text" class="admin__search-input">
+                <i class="fa-solid fa-magnifying-glass admin__search-icon" ></i>
+            </div>
+        </div>
+        <div>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>username</th>
+                        <th>password</th>
+                        <th>roles</th>
+                        <th>status</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>
+                            <p class="desc">admin</p>
+                        </td>
+                        <td>
+                            <select>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <p class="status__active">Active</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="admin-table__action">
+                            <i class="fa-solid fa-pen"></i>
+                            <i class="fa-solid fa-wrench"></i>
+                            <i class="fa-solid fa-trash"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>`
+			}
 		});
 	}
 	function register()
@@ -1288,7 +1357,7 @@
 \t\t\t\t\t\t\t\t<div class="favorite"></div>
 \t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 \t\t\t\t\t\t\t\t<div class="product_info">
-\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="#" onclick="detailProduct()">${data.content[i].title }</a></h6>
 \t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
@@ -1304,7 +1373,7 @@
                   <div class="favorite favorite_left"></div>
                 <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
                 <div class="product_info">
-                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+                    <h6 class="product_name"><a href="#" onclick="detailProduct()>${data.content[i].title}</a></h6>
               <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
               </div>
                </div>
@@ -1347,7 +1416,7 @@
 \t\t\t\t\t\t\t\t<div class="favorite"></div>
 \t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 \t\t\t\t\t\t\t\t<div class="product_info">
-\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="#" onclick="detailProduct()>${data.content[i].title }</a></h6>
 \t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
@@ -1363,7 +1432,7 @@
                   <div class="favorite favorite_left"></div>
                 <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
                 <div class="product_info">
-                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+                    <h6 class="product_name"><a href="#" onclick="detailProduct()>${data.content[i].title}</a></h6>
               <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
               </div>
                </div>
@@ -1406,7 +1475,7 @@
 \t\t\t\t\t\t\t\t<div class="favorite"></div>
 \t\t\t\t\t\t\t\t<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 \t\t\t\t\t\t\t\t<div class="product_info">
-\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="single.html">${data.content[i].title }</a></h6>
+\t\t\t\t\t\t\t\t\t<h6 class="product_name"><a href="#" onclick="detailProduct()>${data.content[i].title }</a></h6>
 \t\t\t\t\t\t\t\t\t<div class="product_price">$${data.content[i].price}</div>
 \t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t</div>
@@ -1422,7 +1491,7 @@
                   <div class="favorite favorite_left"></div>
                 <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$${data.content[i].sale}</span></div>
                 <div class="product_info">
-                    <h6 class="product_name"><a href="single.html">${data.content[i].title}</a></h6>
+                    <h6 class="product_name"><a href="#" onclick="detailProduct()>${data.content[i].title}</a></h6>
               <div class="product_price">$${data.content[i].price*data.content[i].sale/100}<span>$${data.content[i].price}</span></div>
               </div>
                </div>
@@ -1511,8 +1580,6 @@
 			price=(parseInt(price/1000)).toString();
 		}
 		stack.push(price);
-		console.log(stack);
-		console.log(stack.length)
 		for(var i=stack.length-1;i>=0;i--)
 		{
 			//pop push cũng đc vì nó là hàm của stack
@@ -1536,6 +1603,510 @@
 
 			},
 		});
+	}
+	function detailProduct(id)
+	{
+		document.body.innerHTML=`<div class="super_container">
+
+\t<!-- Header -->
+
+\t<header class="header trans_300">
+
+\t\t<!-- Top Navigation -->
+
+\t\t<div class="top_nav">
+\t\t\t<div class="container">
+\t\t\t\t<div class="row">
+\t\t\t\t\t<div class="col-md-6">
+\t\t\t\t\t\t<div class="top_nav_left">free shipping on all u.s orders over $50</div>
+\t\t\t\t\t</div>
+\t\t\t\t\t<div class="col-md-6 text-right">
+\t\t\t\t\t\t<div class="top_nav_right">
+\t\t\t\t\t\t\t<ul class="top_nav_menu">
+
+\t\t\t\t\t\t\t\t<!-- Currency / Language / My Account -->
+
+\t\t\t\t\t\t\t\t<li class="currency">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\tusd
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t\t<ul class="currency_selection">
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">cad</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">aud</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">eur</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">gbp</a></li>
+\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t\t<li class="language">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\tEnglish
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t\t<ul class="language_selection">
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">French</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">Italian</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">German</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#">Spanish</a></li>
+\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t\t<li class="account">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\tMy Account
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t\t<ul class="account_selection">
+\t\t\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+\t\t\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t\t<!-- Main Navigation -->
+
+\t\t<div class="main_nav_container">
+\t\t\t<div class="container">
+\t\t\t\t<div class="row">
+\t\t\t\t\t<div class="col-lg-12 text-right">
+\t\t\t\t\t\t<div class="logo_container">
+\t\t\t\t\t\t\t<a href="#">colo<span>shop</span></a>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t\t<nav class="navbar">
+\t\t\t\t\t\t\t<ul class="navbar_menu">
+\t\t\t\t\t\t\t\t<li><a href="index.html">home</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">shop</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">promotion</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">pages</a></li>
+\t\t\t\t\t\t\t\t<li><a href="#">blog</a></li>
+\t\t\t\t\t\t\t\t<li><a href="contact.html">contact</a></li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t<ul class="navbar_user">
+\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t\t<li class="checkout">
+\t\t\t\t\t\t\t\t\t<a href="#">
+\t\t\t\t\t\t\t\t\t\t<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+\t\t\t\t\t\t\t\t\t\t<span id="checkout_items" class="checkout_items">2</span>
+\t\t\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t\t</li>
+\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t<div class="hamburger_container">
+\t\t\t\t\t\t\t\t<i class="fa fa-bars" aria-hidden="true"></i>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</nav>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t</header>
+
+\t<div class="fs_menu_overlay"></div>
+
+\t<!-- Hamburger Menu -->
+
+\t<div class="hamburger_menu">
+\t\t<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+\t\t<div class="hamburger_menu_content text-right">
+\t\t\t<ul class="menu_top_nav">
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tusd
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection">
+\t\t\t\t\t\t<li><a href="#">cad</a></li>
+\t\t\t\t\t\t<li><a href="#">aud</a></li>
+\t\t\t\t\t\t<li><a href="#">eur</a></li>
+\t\t\t\t\t\t<li><a href="#">gbp</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tEnglish
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection">
+\t\t\t\t\t\t<li><a href="#">French</a></li>
+\t\t\t\t\t\t<li><a href="#">Italian</a></li>
+\t\t\t\t\t\t<li><a href="#">German</a></li>
+\t\t\t\t\t\t<li><a href="#">Spanish</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item has-children">
+\t\t\t\t\t<a href="#">
+\t\t\t\t\t\tMy Account
+\t\t\t\t\t\t<i class="fa fa-angle-down"></i>
+\t\t\t\t\t</a>
+\t\t\t\t\t<ul class="menu_selection">
+\t\t\t\t\t\t<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+\t\t\t\t\t\t<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</li>
+\t\t\t\t<li class="menu_item"><a href="#">home</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">shop</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">promotion</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">pages</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">blog</a></li>
+\t\t\t\t<li class="menu_item"><a href="#">contact</a></li>
+\t\t\t</ul>
+\t\t</div>
+\t</div>
+
+\t<div class="container single_product_container">
+\t\t<div class="row">
+\t\t\t<div class="col">
+
+\t\t\t\t<!-- Breadcrumbs -->
+
+\t\t\t\t<div class="breadcrumbs d-flex flex-row align-items-center">
+\t\t\t\t\t<ul>
+\t\t\t\t\t\t<li><a href="index.html">Home</a></li>
+\t\t\t\t\t\t<li><a href="categories.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Men's</a></li>
+\t\t\t\t\t\t<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
+\t\t\t\t\t</ul>
+\t\t\t\t</div>
+
+\t\t\t</div>
+\t\t</div>
+
+\t\t<div class="row">
+\t\t\t<div class="col-lg-7">
+\t\t\t\t<div class="single_product_pics">
+\t\t\t\t\t<div class="row">
+\t\t\t\t\t\t<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+\t\t\t\t\t\t\t<div class="single_product_thumbnails">
+\t\t\t\t\t\t\t\t<ul>
+\t\t\t\t\t\t\t\t\t<li><img src="images/single_1_thumb.jpg" alt="" data-image="images/single_1.jpg"></li>
+\t\t\t\t\t\t\t\t\t<li class="active"><img src="images/single_2_thumb.jpg" alt="" data-image="images/single_2.jpg"></li>
+\t\t\t\t\t\t\t\t\t<li><img src="images/single_3_thumb.jpg" alt="" data-image="images/single_3.jpg"></li>
+\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t\t<div class="col-lg-9 image_col order-lg-2 order-1">
+\t\t\t\t\t\t\t<div class="single_product_image">
+\t\t\t\t\t\t\t\t<div class="single_product_image_background" style="background-image:url(images/single_2.jpg)"></div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="col-lg-5">
+\t\t\t\t<div class="product_details">
+\t\t\t\t\t<div class="product_details_title">
+\t\t\t\t\t\t<h2>Pocket cotton sweatshirt</h2>
+\t\t\t\t\t\t<p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+\t\t\t\t\t</div>
+\t\t\t\t\t<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+\t\t\t\t\t\t<span class="ti-truck"></span><span>free delivery</span>
+\t\t\t\t\t</div>
+\t\t\t\t\t<div class="original_price">$629.99</div>
+\t\t\t\t\t<div class="product_price">$495.00</div>
+\t\t\t\t\t<ul class="star_rating">
+\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+\t\t\t\t\t</ul>
+\t\t\t\t\t<div class="product_color">
+\t\t\t\t\t\t<span>Select Color:</span>
+\t\t\t\t\t\t<ul>
+\t\t\t\t\t\t\t<li style="background: #e54e5d"></li>
+\t\t\t\t\t\t\t<li style="background: #252525"></li>
+\t\t\t\t\t\t\t<li style="background: #60b3f3"></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t\t<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+\t\t\t\t\t\t<span>Quantity:</span>
+\t\t\t\t\t\t<div class="quantity_selector">
+\t\t\t\t\t\t\t<span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+\t\t\t\t\t\t\t<span id="quantity_value">1</span>
+\t\t\t\t\t\t\t<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t\t<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+\t\t\t\t\t\t<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t</div>
+
+\t<!-- Tabs -->
+
+\t<div class="tabs_section_container">
+
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col">
+\t\t\t\t\t<div class="tabs_container">
+\t\t\t\t\t\t<ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+\t\t\t\t\t\t\t<li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
+\t\t\t\t\t\t\t<li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
+\t\t\t\t\t\t\t<li class="tab" data-active-tab="tab_3"><span>Reviews (2)</span></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row">
+\t\t\t\t<div class="col">
+
+\t\t\t\t\t<!-- Tab Description -->
+
+\t\t\t\t\t<div id="tab_1" class="tab_container active">
+\t\t\t\t\t\t<div class="row">
+\t\t\t\t\t\t\t<div class="col-lg-5 desc_col">
+\t\t\t\t\t\t\t\t<div class="tab_title">
+\t\t\t\t\t\t\t\t\t<h4>Description</h4>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="tab_text_block">
+\t\t\t\t\t\t\t\t\t<h2>Pocket cotton sweatshirt</h2>
+\t\t\t\t\t\t\t\t\t<p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="tab_image">
+\t\t\t\t\t\t\t\t\t<img src="images/desc_1.jpg" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="tab_text_block">
+\t\t\t\t\t\t\t\t\t<h2>Pocket cotton sweatshirt</h2>
+\t\t\t\t\t\t\t\t\t<p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t<div class="col-lg-5 offset-lg-2 desc_col">
+\t\t\t\t\t\t\t\t<div class="tab_image">
+\t\t\t\t\t\t\t\t\t<img src="images/desc_2.jpg" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="tab_text_block">
+\t\t\t\t\t\t\t\t\t<h2>Pocket cotton sweatshirt</h2>
+\t\t\t\t\t\t\t\t\t<p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<div class="tab_image desc_last">
+\t\t\t\t\t\t\t\t\t<img src="images/desc_3.jpg" alt="">
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+
+\t\t\t\t\t<!-- Tab Additional Info -->
+
+\t\t\t\t\t<div id="tab_2" class="tab_container">
+\t\t\t\t\t\t<div class="row">
+\t\t\t\t\t\t\t<div class="col additional_info_col">
+\t\t\t\t\t\t\t\t<div class="tab_title additional_info_title">
+\t\t\t\t\t\t\t\t\t<h4>Additional Information</h4>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t<p>COLOR:<span>Gold, Red</span></p>
+\t\t\t\t\t\t\t\t<p>SIZE:<span>L,M,XL</span></p>
+\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+
+\t\t\t\t\t<!-- Tab Reviews -->
+
+\t\t\t\t\t<div id="tab_3" class="tab_container">
+\t\t\t\t\t\t<div class="row">
+
+\t\t\t\t\t\t\t<!-- User Reviews -->
+
+\t\t\t\t\t\t\t<div class="col-lg-6 reviews_col">
+\t\t\t\t\t\t\t\t<div class="tab_title reviews_title">
+\t\t\t\t\t\t\t\t\t<h4>Reviews (2)</h4>
+\t\t\t\t\t\t\t\t</div>
+
+\t\t\t\t\t\t\t\t<!-- User Review -->
+
+\t\t\t\t\t\t\t\t<div class="user_review_container d-flex flex-column flex-sm-row">
+\t\t\t\t\t\t\t\t\t<div class="user">
+\t\t\t\t\t\t\t\t\t\t<div class="user_pic"></div>
+\t\t\t\t\t\t\t\t\t\t<div class="user_rating">
+\t\t\t\t\t\t\t\t\t\t\t<ul class="star_rating">
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t<div class="review">
+\t\t\t\t\t\t\t\t\t\t<div class="review_date">27 Aug 2016</div>
+\t\t\t\t\t\t\t\t\t\t<div class="user_name">Brandon William</div>
+\t\t\t\t\t\t\t\t\t\t<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t</div>
+
+\t\t\t\t\t\t\t\t<!-- User Review -->
+
+\t\t\t\t\t\t\t\t<div class="user_review_container d-flex flex-column flex-sm-row">
+\t\t\t\t\t\t\t\t\t<div class="user">
+\t\t\t\t\t\t\t\t\t\t<div class="user_pic"></div>
+\t\t\t\t\t\t\t\t\t\t<div class="user_rating">
+\t\t\t\t\t\t\t\t\t\t\t<ul class="star_rating">
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t<div class="review">
+\t\t\t\t\t\t\t\t\t\t<div class="review_date">27 Aug 2016</div>
+\t\t\t\t\t\t\t\t\t\t<div class="user_name">Brandon William</div>
+\t\t\t\t\t\t\t\t\t\t<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t</div>
+
+\t\t\t\t\t\t\t<!-- Add Review -->
+
+\t\t\t\t\t\t\t<div class="col-lg-6 add_review_col">
+
+\t\t\t\t\t\t\t\t<div class="add_review">
+\t\t\t\t\t\t\t\t\t<form id="review_form" action="post">
+\t\t\t\t\t\t\t\t\t\t<div>
+\t\t\t\t\t\t\t\t\t\t\t<h1>Add Review</h1>
+\t\t\t\t\t\t\t\t\t\t\t<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
+\t\t\t\t\t\t\t\t\t\t\t<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t<div>
+\t\t\t\t\t\t\t\t\t\t\t<h1>Your Rating:</h1>
+\t\t\t\t\t\t\t\t\t\t\t<ul class="user_star_rating">
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t\t<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+\t\t\t\t\t\t\t\t\t\t\t</ul>
+\t\t\t\t\t\t\t\t\t\t\t<textarea id="review_message" class="input_review" name="message"  placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t<div class="text-left text-sm-right">
+\t\t\t\t\t\t\t\t\t\t\t<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
+\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t</form>
+\t\t\t\t\t\t\t\t</div>
+
+\t\t\t\t\t\t\t</div>
+
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+
+\t</div>
+
+\t<!-- Benefit -->
+
+\t<div class="benefit">
+\t\t<div class="container">
+\t\t\t<div class="row benefit_row">
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>free shipping</h6>
+\t\t\t\t\t\t\t<p>Suffered Alteration in Some Form</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>cach on delivery</h6>
+\t\t\t\t\t\t\t<p>The Internet Tend To Repeat</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>45 days return</h6>
+\t\t\t\t\t\t\t<p>Making it Look Like Readable</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-3 benefit_col">
+\t\t\t\t\t<div class="benefit_item d-flex flex-row align-items-center">
+\t\t\t\t\t\t<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+\t\t\t\t\t\t<div class="benefit_content">
+\t\t\t\t\t\t\t<h6>opening all week</h6>
+\t\t\t\t\t\t\t<p>8AM - 09PM</p>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Newsletter -->
+
+\t<div class="newsletter">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+\t\t\t\t\t\t<h4>Newsletter</h4>
+\t\t\t\t\t\t<p>Subscribe to our newsletter and get 20% off your first purchase</p>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<form action="post">
+\t\t\t\t\t\t<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+\t\t\t\t\t\t\t<input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required.">
+\t\t\t\t\t\t\t<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+\t\t\t\t\t\t</div>
+\t\t\t\t\t</form>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</div>
+
+\t<!-- Footer -->
+
+\t<footer class="footer">
+\t\t<div class="container">
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+\t\t\t\t\t\t<ul class="footer_nav">
+\t\t\t\t\t\t\t<li><a href="#">Blog</a></li>
+\t\t\t\t\t\t\t<li><a href="#">FAQs</a></li>
+\t\t\t\t\t\t\t<li><a href="contact.html">Contact us</a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t<div class="col-lg-6">
+\t\t\t\t\t<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+\t\t\t\t\t\t<ul>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t\t<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+\t\t\t\t\t\t</ul>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t\t<div class="row">
+\t\t\t\t<div class="col-lg-12">
+\t\t\t\t\t<div class="footer_nav_container">
+\t\t\t\t\t\t<div class="cr">©2018 All Rights Reserverd. This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t</div>
+\t\t</div>
+\t</footer>
+
+</div>`
 	}
 </script>
 </body>

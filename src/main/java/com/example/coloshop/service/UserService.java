@@ -15,6 +15,7 @@ public interface UserService extends UserDetailsService {
 
 
     User findByUsername(String username);
+    Iterable<User>findAllByUserNameContain(String username);
 
     User getCurrentUser();
 

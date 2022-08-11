@@ -54,6 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Iterable<User> findAllByUserNameContain(String username) {
+        return userRepository.findAllByUsernameContaining(username);
+    }
+
+    @Override
     public User getCurrentUser() {
         User user;
         String userName;

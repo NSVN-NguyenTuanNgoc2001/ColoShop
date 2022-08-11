@@ -182,7 +182,7 @@ jQuery(document).ready(function($)
 
 	function initTimer()
     {
-    	if($('.timer').length)
+    	if($('.timer').length)//lấy ra timmer
     	{
     		// Uncomment line below and replace date
 	    	// var target_date = new Date("Dec 7, 2017").getTime();

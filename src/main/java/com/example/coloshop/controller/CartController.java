@@ -3,6 +3,7 @@ package com.example.coloshop.controller;
 import com.example.coloshop.model.Cart;
 import com.example.coloshop.repository.CartRepository;
 import com.example.coloshop.service.CartService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequestMapping("/cart")
 public class CartController {
+    private static Logger logger=Logger.getLogger(CartController.class);
     @Autowired
     private CartService cartService;
     @Autowired
@@ -21,6 +23,7 @@ public class CartController {
     public ResponseEntity findAllByStatus(@RequestBody Cart cart)
     {
         cartService.save(cart);
+        logger.info("Add product cart");
         return new ResponseEntity(cart, HttpStatus.OK);
     }
     @GetMapping("/search-by-status")
@@ -37,6 +40,7 @@ public class CartController {
         boolean check= cartRepository.existsById(id);//kiểm tra xem id này có không
         if(check){
             cartService.deleteCart(id);
+            logger.info("delete cart by id");
             return new ResponseEntity(HttpStatus.OK);
         }
         else
