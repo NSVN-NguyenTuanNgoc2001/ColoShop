@@ -86,12 +86,16 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.PUT, "/users")
 //                .access("hasRole('ROLE_USER')")
                 .anyRequest().authenticated()
-                .and().csrf().disable()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                .and()
+                .csrf()
+                .disable()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
+
     }
 }

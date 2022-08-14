@@ -25,4 +25,26 @@ public class CartServiceImpl implements CartService {
     public void deleteCart(int id) {
         cartRepository.deleteById(id);
     }
+
+    @Override
+    public Cart findProductId(int productId,int userId) {
+        return cartRepository.findByProductIdAndUserId(productId,userId);
+    }
+
+    @Override
+    public Cart findById(int id) {
+        return cartRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Cart> findAllUserId(int id) {
+        return cartRepository.findAllByUserId(id);
+    }
+
+    @Override
+    public Iterable<Cart> listUserOrder(int id, int status) {
+        return cartRepository.findAllByProduct_ProductTypeUserIdAndStatus(id,status);
+    }
+
+
 }
