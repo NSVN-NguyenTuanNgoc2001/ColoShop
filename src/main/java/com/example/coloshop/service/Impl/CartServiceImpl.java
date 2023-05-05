@@ -6,6 +6,8 @@ import com.example.coloshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartServiceImpl implements CartService {
     @Autowired
@@ -44,6 +46,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public Iterable<Cart> listUserOrder(int id, int status) {
         return cartRepository.findAllByProduct_ProductTypeUserIdAndStatus(id,status);
+    }
+
+    @Override
+    public List<Cart> checkProduct(int id) {
+        return cartRepository.findAllByProductId(id);
     }
 
 

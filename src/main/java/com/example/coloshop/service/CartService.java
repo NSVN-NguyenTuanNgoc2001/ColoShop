@@ -2,6 +2,8 @@ package com.example.coloshop.service;
 
 import com.example.coloshop.model.Cart;
 
+import java.util.List;
+
 public interface CartService {
     void save(Cart cart);
     Iterable<Cart>getNumberCart(int id,int status);
@@ -10,4 +12,5 @@ public interface CartService {
     Cart findById(int id);
     Iterable<Cart>findAllUserId(int id);
     Iterable<Cart>listUserOrder(int id,int status);
+    List<Cart> checkProduct(int id);
 }

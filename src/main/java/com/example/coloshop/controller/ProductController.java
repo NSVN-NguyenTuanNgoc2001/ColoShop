@@ -8,10 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -20,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    /**
+     * get all product
+     */
     @GetMapping
     public ResponseEntity<Iterable<Product>> findAll(@PageableDefault(size =12) Pageable pageable)
     {
@@ -29,6 +29,9 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    /**
+     * tìm kiểm theo loại sản phẩm
+     */
     @GetMapping("/search-by-cateId")
     public ResponseEntity<Iterable<Product>> findAllByCateId(@PageableDefault(size =12)Pageable pageable,@RequestParam int id) {
         Iterable<Product> products=productService.findAllByCategoryId(pageable,id);
@@ -36,6 +39,11 @@ public class ProductController {
             return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+    /**
+     * tìm kiểm theo khoảng giá
+     */
+
     @GetMapping("/price-between")
     public ResponseEntity<Iterable<Product>>findAllByPriceBetween(@RequestParam float from,@RequestParam float to)
     {
@@ -53,4 +61,48 @@ public class ProductController {
             return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+    //search theo tên
+    @GetMapping("/name-between")
+    public ResponseEntity<Iterable<Product>>searchByName(@RequestParam String name)
+    {
+//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
+//        if(products==null)
+//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+        return null;
+    }
+
+    //admin
+    //thêm sản phẩm
+    @PostMapping("/add-product")
+    public void addProduct(@RequestParam Product product)
+    {
+//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
+//        if(products==null)
+//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//        return null;
+    }
+
+    //admin
+    //xóa sản phẩm(thay đổi trạng thái của sản phẩm)
+    public void deleteProduct(@RequestParam Long productId)
+    {
+//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
+//        if(products==null)
+//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//        return null;
+    }
+
+    //admin vs user
+    //search sản phẩm bán chạy
+    @GetMapping
+    public ResponseEntity<Iterable<Product>> searchProductSelling (@PageableDefault(size =12) Pageable pageable)
+    {
+        return null;
+    }
+
+
 }

@@ -4,6 +4,8 @@ import com.example.coloshop.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
     Iterable<Cart>findAllByUserIdAndStatus(int id,int status);
@@ -12,5 +14,6 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     Cart findByProductIdAndUserId(int productId,int userId);
     Cart findById(int id);
     Iterable<Cart>findAllByProduct_ProductTypeUserIdAndStatus(int userId,int status);
-//    Iterable<Cart>findAllByProduct_ProductTypeUserId(int id);
+
+    List<Cart> findAllByProductId(int id);
 }

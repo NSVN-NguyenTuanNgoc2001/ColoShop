@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -21,16 +22,12 @@ public class CartController {
     private CartService cartService;
     @Autowired
     private CartRepository cartRepository;
-    //lấy ra sản phẩm của người dùng
-    @GetMapping
-    public ResponseEntity<Cart>findByProductId(@RequestParam int productId,@RequestParam int userId)
-    {
-        Cart cart=cartRepository.findByProductIdAndUserId(productId,userId);
-        if(cart==null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<>(cart,HttpStatus.OK);
-    }
+
+    /**
+     * tìm kiếm sản phẩm theo id
+     * @param id
+     * @return
+     */
     @GetMapping("/id")
     public ResponseEntity<Cart>findByProductId(@RequestParam int id)
     {
@@ -38,13 +35,34 @@ public class CartController {
             return new ResponseEntity<>(cartRepository.findById(id),HttpStatus.OK);
     }
 
+    /**
+     * user
+     * thêm sản phẩm vào giỏ hàng
+     * @param cart
+     * @return
+     */
     @PostMapping("/add-cart")
     public ResponseEntity findAllByStatus(@RequestBody Cart cart)
     {
+        List<Cart> carts = cartService.checkProduct(cart.getProduct().getId());
+        if(!carts.isEmpty())
+        {
+            carts.get(0).setNumber(carts.get(0).getNumber()+1);
+            for(Cart ct:carts)
+              cartService.save(ct);
+        }
         cartService.save(cart);
         logger.info("Save product to cart");
         return new ResponseEntity(cart, HttpStatus.OK);
     }
+
+    /**
+     * user
+     * cập nhật số lượng sản phẩm tăng sp trong giỏ hàng thêm 1
+     * @param productId
+     * @param userId
+     * @return
+     */
     @PutMapping("/save-number-product")
     public ResponseEntity insertProductNuber(@RequestParam int productId,@RequestParam int userId)
     {
@@ -59,6 +77,14 @@ public class CartController {
             return new ResponseEntity(HttpStatus.OK);
         }
     }
+
+    /**
+     * admin
+     * tìm kiếm sản phẩm theo trạng thái(trong giỏ hàng ,đã vận chuyển)
+     * @param id
+     * @param status
+     * @return
+     */
     @GetMapping("/search-by-status")
     public ResponseEntity<Iterable<Cart>> findAllByStatus(@RequestParam int id, @RequestParam int status)
     {
@@ -67,6 +93,13 @@ public class CartController {
             return new ResponseEntity<>(carts, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(carts, HttpStatus.OK);
     }
+
+    /**
+     * admin
+     * xóa sản phẩm trong giỏ hàng
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteCart(@PathVariable int id)
     {
@@ -79,6 +112,14 @@ public class CartController {
         else
             return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * user and admin
+     * lấy danh sách sản phẩm người dùng đặt
+     * @param userId
+     * @param status
+     * @return
+     */
     @GetMapping("/order")
     public ResponseEntity<Iterable<Cart>>listOrder(@RequestParam int userId,@RequestParam int status)
     {
@@ -94,11 +135,18 @@ public class CartController {
             return new ResponseEntity(carts,HttpStatus.OK);
         }
     }
+
+    /**
+     * user and admin
+     * thay đổi trajgn thái đơn hàng
+     * @param userId
+     * @return
+     */
     @PutMapping("/change-status")
     public ResponseEntity changeStatus(@RequestParam int userId)
     {
         //đặt hàng thì tự nhảy vào đây
-        Iterable<Cart> carts=cartService.findAllUserId(userId);
+        Iterable<Cart> carts=cartService.findAllUserId(userId); // trạng thái là 2 thì tức là đang ở trong trạng thái chờ duyệt
         for (Cart i:carts) {
             i.setStatus(2);
             cartRepository.save(i);
@@ -106,6 +154,12 @@ public class CartController {
         return new ResponseEntity(carts,HttpStatus.OK);
 
     }
+
+    /**
+     * xác nhận đơn hàng admin
+     * @param id
+     * @return
+     */
     @PutMapping("/confirm")
     public ResponseEntity confirmOrder(@RequestParam int id)
     {
