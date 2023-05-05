@@ -98,11 +98,11 @@ public class ProductController {
 
     //admin vs user
     //search sản phẩm bán chạy
-    @GetMapping
-    public ResponseEntity<Iterable<Product>> searchProductSelling (@PageableDefault(size =12) Pageable pageable)
-    {
-        return null;
-    }
+//    @GetMapping
+//    public ResponseEntity<Iterable<Product>> searchProductSelling (@PageableDefault(size =12) Pageable pageable)
+//    {
+//        return null;
+//    }
 
 
 }
