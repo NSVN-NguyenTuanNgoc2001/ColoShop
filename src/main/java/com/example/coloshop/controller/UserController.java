@@ -106,4 +106,9 @@ public class UserController {
         User currentUser = userService.findByUsername(user.getUsername());
         return ResponseEntity.ok(new JwtResponse(jwt, (long) currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
     }
+    @PostMapping("/update-information")
+    public void updateInformation(@RequestBody User user)
+    {
+
+    }
 }

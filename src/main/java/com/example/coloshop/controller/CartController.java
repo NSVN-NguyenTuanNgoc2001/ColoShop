@@ -168,6 +168,15 @@ public class CartController {
         //còn k thì chuyển thành xác nhận đơn hàng
         carts.setStatus(carts.getStatus()==1?2:3);
         cartRepository.save(carts);
+
+        //lưu vào đồng thời kiểm tra và cập nhật lại số lượng và trạng thái sản phẩm
+
+
+
+
+
+
+        
         return new ResponseEntity(HttpStatus.OK);
     }
 

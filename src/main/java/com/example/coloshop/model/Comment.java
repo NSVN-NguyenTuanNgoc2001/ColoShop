@@ -9,7 +9,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
     private String content;
     private Date date;
@@ -17,7 +17,7 @@ public class Comment {
     private float star;
     //trạng thái của comment đã xóa hay chưa mà sửa chưa
     private int status;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
     public Comment() {

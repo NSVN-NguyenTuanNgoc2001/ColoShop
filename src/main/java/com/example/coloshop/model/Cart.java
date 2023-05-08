@@ -3,11 +3,13 @@ package com.example.coloshop.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name="cart")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
     @OneToOne
     private User user;

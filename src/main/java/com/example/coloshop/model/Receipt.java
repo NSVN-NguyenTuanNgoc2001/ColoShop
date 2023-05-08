@@ -1,6 +1,8 @@
 package com.example.coloshop.model;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 public class Receipt {
@@ -9,7 +11,8 @@ public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receipt_id")
     private User user;
     //mã hóa đơn nếu ng dùng thanh toán
     //còn k có thì nó chỉ là cart mà thôi
@@ -19,17 +22,19 @@ public class Receipt {
     private int status;
     private int number;
 
+    @OneToMany(mappedBy = "receipt",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Collection<ReceiptDetail> receiptDetailSet;
+
     public Receipt() {
     }
 
-    public Receipt(int id, User user, String sdt, int status, int number) {
+    public Receipt(int id, User user, String sdt, int status, int number, Collection<ReceiptDetail> receiptDetailSet) {
         this.id = id;
         this.user = user;
-
         this.sdt = sdt;
-
         this.status = status;
         this.number = number;
+        this.receiptDetailSet = receiptDetailSet;
     }
 
     public int getId() {
@@ -71,5 +76,13 @@ public class Receipt {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public Collection<ReceiptDetail> getReceiptDetailSet() {
+        return receiptDetailSet;
+    }
+
+    public void setReceiptDetailSet(Collection<ReceiptDetail> receiptDetailSet) {
+        this.receiptDetailSet = receiptDetailSet;
     }
 }

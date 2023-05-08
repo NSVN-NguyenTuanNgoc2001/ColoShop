@@ -1,6 +1,8 @@
 package com.example.coloshop.model;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 public class ProductType {
@@ -9,18 +11,23 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
     private int status;
+
+    @OneToMany(mappedBy = "productType",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Collection<Product> products;
 
     public ProductType() {
     }
 
-    public ProductType(int id, String name, User user, int status) {
+    public ProductType(int id, String name, User user, int status, Collection<Product> products) {
         this.id = id;
         this.name = name;
         this.user = user;
         this.status = status;
+        this.products = products;
     }
 
     public int getId() {
@@ -53,5 +60,13 @@ public class ProductType {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Collection<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<Product> products) {
+        this.products = products;
     }
 }

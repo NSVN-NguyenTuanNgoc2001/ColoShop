@@ -1,9 +1,11 @@
 package com.example.coloshop.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +18,30 @@ public class Product {
     private String description;
     private String title;
     private Date date;
+    //trạng thái sản phẩm này còn hay không
     private int status;
     private float sale;
-    @ManyToOne
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private Collection<Cart> cart;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_type_id")
     private ProductType productType;
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Collection<ReceiptDetail>receiptDetails;
 
     public Product() {
     }
 
-    public Product(int id, float price, String imageRoot, String imageFirst, String imageSecond, int number, String description, String title, Date date, int status, float sale, Category category, ProductType productType) {
+    public Product(int id, float price, String imageRoot, String imageFirst, String imageSecond, int number, String description, String title, Date date, int status, float sale, Collection<Cart> cart, Category category, ProductType productType, Collection<Comment> comments, Collection<ReceiptDetail> receiptDetails) {
         this.id = id;
         this.price = price;
         this.imageRoot = imageRoot;
@@ -38,8 +53,11 @@ public class Product {
         this.date = date;
         this.status = status;
         this.sale = sale;
+        this.cart = cart;
         this.category = category;
         this.productType = productType;
+        this.comments = comments;
+        this.receiptDetails = receiptDetails;
     }
 
     public int getId() {
@@ -144,5 +162,29 @@ public class Product {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public Collection<Cart> getCart() {
+        return cart;
+    }
+
+    public void setCart(Collection<Cart> cart) {
+        this.cart = cart;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Collection<ReceiptDetail> getReceiptDetails() {
+        return receiptDetails;
+    }
+
+    public void setReceiptDetails(Collection<ReceiptDetail> receiptDetails) {
+        this.receiptDetails = receiptDetails;
     }
 }

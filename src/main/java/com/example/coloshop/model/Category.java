@@ -1,9 +1,8 @@
 package com.example.coloshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 public class Category {
@@ -13,13 +12,17 @@ public class Category {
     private String name;
     private int status;
 
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Collection<Product> product;
+
     public Category() {
     }
 
-    public Category(int id, String name, int status) {
+    public Category(int id, String name, int status, Collection<Product> product) {
         this.id = id;
         this.name = name;
         this.status = status;
+        this.product = product;
     }
 
     public int getId() {
@@ -44,5 +47,13 @@ public class Category {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Collection<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(Collection<Product> product) {
+        this.product = product;
     }
 }
