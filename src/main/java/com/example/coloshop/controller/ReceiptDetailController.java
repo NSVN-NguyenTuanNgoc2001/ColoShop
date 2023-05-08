@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ReceiptDetailController {
     @Autowired
     private ReceiptDetailService receiptDetail;
+
+    /**
+     * lấy ra sản phẩm có trạng thái là thanh toán hoặc vận chuyển ra
+     * @param id
+     * @return
+     */
     @GetMapping
     public ResponseEntity<Iterable<ReceiptDetail>> findAllByStatus(@RequestParam int id)
     {
@@ -23,7 +29,13 @@ public class ReceiptDetailController {
             return new ResponseEntity<>(receipts, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(receipts, HttpStatus.OK);
     }
-    @PostMapping("/add-cart")
+
+    /**
+     * thêm sản phẩm vào hóa đơn
+     * @param receipt
+     * @return
+     */
+    @PostMapping("/add-receipt")
     public ResponseEntity findAllByStatus(@RequestBody ReceiptDetail receipt)
     {
         receiptDetail.save(receipt);

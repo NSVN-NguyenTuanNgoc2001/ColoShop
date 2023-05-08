@@ -29,4 +29,6 @@ public interface UserService extends UserDetailsService {
 
     boolean isCorrectConfirmPassword(User user);
 
+    void updateUser(User user);
+
 }

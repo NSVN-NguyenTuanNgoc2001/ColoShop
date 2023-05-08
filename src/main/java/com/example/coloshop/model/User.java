@@ -45,13 +45,13 @@ public class User implements Serializable {
 
     private Date dateWorking;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Comment>comments;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<ProductType>productTypes;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Collection<Receipt> receipts;
 
     public User(int id, String username, String password, String confirmPassword, boolean enabled, Set<Role> roles, String name, String address, String sdt, String image, Date date, Date dateWorking, Collection<Comment> comments, Collection<ProductType> productTypes, Collection<Receipt> receipts) {

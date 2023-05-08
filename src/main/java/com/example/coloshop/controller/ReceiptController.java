@@ -17,6 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class ReceiptController {
     @Autowired
     private ReceiptService receiptService;
+
+    /**
+     * tìm kiếm sản phẩm theo trạng thái trong giỏ hàng(cái này chưa cần thiết vì đã vào giỏ hàng thì trạng thái của sp phải là đang trong giỏ hàng )
+     * @param id
+     * @param status
+     * @return
+     */
     @GetMapping("/search-by-status")
     public ResponseEntity<Iterable<Receipt>> findAllByStatus(@RequestParam int id,@RequestParam int status)
     {
@@ -25,6 +32,12 @@ public class ReceiptController {
             return new ResponseEntity<>(receipts, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(receipts, HttpStatus.OK);
     }
+
+    /**
+     * thêm sản phẩm vào giỏ hàng
+     * @param receipt
+     * @return
+     */
     @PostMapping("/add-cart")
     public ResponseEntity findAllByStatus(@RequestBody Receipt receipt)
     {

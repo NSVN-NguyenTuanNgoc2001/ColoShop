@@ -66,11 +66,10 @@ public class ProductController {
     @GetMapping("/name-between")
     public ResponseEntity<Iterable<Product>>searchByName(@RequestParam String name)
     {
-//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
-//        if(products==null)
-//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-        return null;
+        Iterable<Product> products=productService.findAllByTitleBetween(name);
+        if(products==null)
+            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     //admin
@@ -78,26 +77,19 @@ public class ProductController {
     @PostMapping("/add-product")
     public void addProduct(@RequestParam Product product)
     {
-//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
-//        if(products==null)
-//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//        return null;
+        productService.save(product);
     }
 
     //admin
     //xóa sản phẩm(thay đổi trạng thái của sản phẩm)
-    public void deleteProduct(@RequestParam Long productId)
+    public void deleteProduct(@RequestParam Product product)
     {
-//        Iterable<Product> products=productService.findAllBySaleBetween(from,to);
-//        if(products==null)
-//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//        return null;
+        if(product!=null)
+        productService.deleteProduct(product);
     }
 
-    //admin vs user
-    //search sản phẩm bán chạy
+//    //admin vs user
+//    //search sản phẩm bán chạy
 //    @GetMapping
 //    public ResponseEntity<Iterable<Product>> searchProductSelling (@PageableDefault(size =12) Pageable pageable)
 //    {

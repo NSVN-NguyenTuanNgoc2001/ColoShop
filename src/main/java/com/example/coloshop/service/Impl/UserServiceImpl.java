@@ -121,4 +121,9 @@ public class UserServiceImpl implements UserService {
         }
         return isCorrentConfirmPassword;
     }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
 }

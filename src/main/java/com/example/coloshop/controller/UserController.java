@@ -109,6 +109,6 @@ public class UserController {
     @PostMapping("/update-information")
     public void updateInformation(@RequestBody User user)
     {
-
+        userService.updateUser(user);
     }
 }
